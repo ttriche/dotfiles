@@ -1,0 +1,3 @@
+#!/bin/sh
+
+vcf-sort $1 | bgzip > $1".gz" && tabix $1".gz" && rm $1

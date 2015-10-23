@@ -1,0 +1,4 @@
+#!/bin/sh
+
+(grep ^"#" $1; grep -v ^"#" $1 | sort -k1,1 -k4,4n) | bgzip > $1.gz && \
+  tabix $1.gz && rm $1

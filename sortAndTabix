@@ -1,0 +1,6 @@
+#!/bin/sh 
+
+echo $1 | grep -qi vcf && echo "Using VCF options..." && sortAndTabixVcf $1
+echo $1 | grep -qi gtf && echo "Using GTF options..." && sortAndTabixGtf $1
+echo $1 | grep -qi gff && echo "Using GFF options..." && sortAndTabixGff $1
+echo $1 | grep -qi bed && echo "Using BED options..." && sortAndTabixBed $1
