@@ -153,8 +153,8 @@ export AWS_CONFIG_FILE=/home/tim/Dropbox/AWS/aws_cli_config
 # export PKG_CPPFLAGS=" -I. -lpthread "$PKG_CPPFLAGS
 # export PKG_LIBS=`Rscript -e "Rcpp:::LdFlags()"`
 export PATH=$PATH:/home/tim/domino:/home/tim/homer/bin:/home/tim/bin
-export PATH="$PATH:/usr/lib/jvm/java-7-oracle/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/home/tim/homer/weblogo"
-export JAVA_HOME='/usr/lib/jvm/java-7-oracle/'
+export PATH="$PATH:/usr/lib/jvm/java-8-openjdk-amd64/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/home/tim/homer/weblogo"
+export JAVA_HOME='/usr/lib/jvm/java-8-openjdk-amd64'
 export LD_LIBRARY_PATH=$JAVA_HOME/jre/lib/amd64:$JAVA_HOME/jre/lib/amd64/jli
 
 
@@ -219,7 +219,9 @@ alias igvtools=$HOME/IGV/IGVTools/igvtools
 ## skype
 alias startskype="nohup skype > /dev/null 2>&1 &"
 
-export JAVA_HOME=/usr/lib/jvm/java-7-openjdk-i386
 export LD_LIBRARY_PATH=$JAVA_HOME/jre/lib/amd64:$JAVA_HOME/jre/lib/amd64/client
 
 cowthink `fortune`
+
+# added by Miniconda2 3.18.3 installer
+export PATH="/home/tim/miniconda2/bin:$PATH"

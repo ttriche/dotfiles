@@ -16,6 +16,7 @@
   
     # for roxygenise()
     rox <<- roxygen2::roxygenise
+    dox <<- devtools::document
 
     library("utils")
     library("purrr")
@@ -27,7 +28,7 @@
     library("BiocInstaller")
 
     # change some defaults
-    options("digits"=3)
+    options("digits"=9)
     options("max.print"=9999)
     options("biocLiteAsk"=FALSE)
     options("pdfviewer"="/usr/bin/evince")
@@ -50,7 +51,7 @@
     options(lyx.use.encoding = FALSE)
    
     # set up bigrquery 
-    library("bigrquery")
+    # library("bigrquery")
     # billing_project <- is set in ~/.Rscripts/bigquery.R
 
   }
