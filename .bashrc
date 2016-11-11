@@ -1,6 +1,7 @@
 # ~/.bashrc: executed by bash(1) for non-login shells.
 # see /usr/share/doc/bash/examples/startup-files (in the package bash-doc)
 # for examples
+gsettings set org.compiz.core:/org/compiz/profiles/unity/plugins/core/ hsize 6
 
 # If not running interactively, don't do anything
 [ -z "$PS1" ] && return
@@ -164,19 +165,6 @@ export LD_LIBRARY_PATH=$JAVA_HOME/jre/lib/amd64:$JAVA_HOME/jre/lib/amd64/jli
 # this tells python where to find the genome library 
 export PYTHONPATH=$PYTHONPATH:$HOME/src/genome/python/lib
 
-# update LD_LIBRARY_PATH by adding $HOME/src/genome/c/lib/ 
-# this is so the libgenome C library can be dynamically loaded by scripts that need it
-export LD_LIBRARY_PATH=$HOME/src/genome/c/lib/:$LD_LIBRARY_PATH
-
-# set some flags that are needed for compiling the C library
-export CFLAGS=-I$HOME/src/genome/c/lib/
-export LDFLAGS=-L$HOME/src/genome/c/lib/
-
-# specify the location of 'database' where the HDF5 files that you want to use are
-export GENOME_DB=/data/share/genome_db/
-
-# scripts will use this genome assembly by default 
-export GENOME_ASSEMBLY=hg19
 alias  ipynb="ipython notebook --matplotlib=inline"
 alias  irnb="ipython notebook --KernelManager.kernel_cmd=\"['R', '-e', 'IRkernel::main()', '--args', '{connection_file}']\""
 alias  epynb="ssh -N -f -L localhost:6000:localhost:7000 ttriche@epigraph.epigenome.usc.edu"
@@ -193,19 +181,6 @@ export PATH=$PATH:$GOPATH/bin
 # this tells python where to find the genome library 
 export PYTHONPATH=$PYTHONPATH:$HOME/src/genome/python/lib
 
-# update LD_LIBRARY_PATH by adding $HOME/src/genome/c/lib/ 
-# this is so the libgenome C library can be dynamically loaded by scripts that need it
-export LD_LIBRARY_PATH=$HOME/src/genome/c/lib/:$LD_LIBRARY_PATH
-
-# set some flags that are needed for compiling the C library
-export CFLAGS=-I$HOME/src/genome/c/lib/
-export LDFLAGS=-L$HOME/src/genome/c/lib/
-
-# specify the location of 'database' where the HDF5 files that you want to use are
-export GENOME_DB=/data/share/genome_db/
-
-# scripts will use this genome assembly by default 
-export GENOME_ASSEMBLY=hg19
 export ADAM_HOME="/home/tim/bigdatagenomics/adam"
 alias piUp="sudo ifconfig eth0 192.168.1.1 netmask 255.255.255.0 up"
 alias hadoopStart="sudo su - hduser -c ~hduser/start-hadoop.sh"
@@ -224,4 +199,4 @@ export LD_LIBRARY_PATH=$JAVA_HOME/jre/lib/amd64:$JAVA_HOME/jre/lib/amd64/client
 cowthink `fortune`
 
 # added by Miniconda2 3.18.3 installer
-export PATH="/home/tim/miniconda2/bin:$PATH"
+export PATH="$PATH:/home/tim/miniconda2/bin:/scratch/homer/bin:/scratch/homer/weblogo"

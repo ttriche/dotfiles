@@ -3,7 +3,6 @@
 .First <- function() {
 
   # where I like to keep my libraries
-  # .libPaths("/home/tim/R/library")
   Sys.setenv("R_PDFVIEWER"="/usr/bin/evince")
   options("repos" = c(CRAN = "http://cran.rstudio.com/"),
                       browserNLdisabled = TRUE,
@@ -14,18 +13,21 @@
   if (interactive()) {
     cat("\nWelcome to",R.version.string,"\n")
   
+    loadOrInstall <- function(x) {
+      if(!require(x, character.only=TRUE)) install.packages(x)
+      require(x, character.only=TRUE) 
+    }
+
+    packages <- c("utils","knitr","purrr","useful","gtools","magrittr") # dplyr?
+    for (pkg in packages) loadOrInstall(pkg)
+    if (!require(BiocInstaller)) {
+      source("http://bioconductor.org/biocLite.R")
+      biocLite()
+    }
+    
     # for roxygenise()
     rox <<- roxygen2::roxygenise
     dox <<- devtools::document
-
-    library("utils")
-    library("purrr")
-    library("useful")
-    # library("dplyr")
-    library("gtools")
-    library("magrittr")
-    # library("Homo.sapiens")
-    library("BiocInstaller")
 
     # change some defaults
     options("digits"=9)
@@ -86,14 +88,6 @@ if (interactive()) {
 
   # quote words, like in perl
   qw <- function(...) sapply(match.call()[-1], deparse)
-
-# Now in its own script in  ~/.Rscripts/moreOperators.R
-#
-#  "%notin%" <- function (x, table) match(x, table, nomatch = 0) == 0
-#  "%d%" <- setdiff
-#  "%i%" <- intersect
-#  "%u%" <- union 
-#
 
 # Now in its own script in ~/.Rscripts/phelp.R 
 #

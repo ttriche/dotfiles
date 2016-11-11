@@ -1,5 +1,5 @@
 " pathogen
-execute pathogen#infect()
+" execute pathogen#infect()
 
 " ag 
 let g:ackprg = 'ag --nogroup --nocolor --column'
@@ -26,6 +26,13 @@ set pastetoggle=<F2>
 " send selections/lines to R
 vmap <Space> <Plug>RDSendSelection
 nmap <Space> <Plug>RDSendLine
+
+" type __ to get <- 
+let R_assign=2
+
+" get R help in the R window
+let R_open_example = 0
+let R_nvimpager = "no"
 
 " {{{ Formatting options
 set cino=>2
