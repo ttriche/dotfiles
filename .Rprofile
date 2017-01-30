@@ -4,6 +4,7 @@
 
   # where I like to keep my libraries
   Sys.setenv("R_PDFVIEWER"="/usr/bin/evince")
+  Sys.setenv(TENSORFLOW_PYTHON="/usr/bin/python3.6")
   options("repos" = c(CRAN = "http://cran.rstudio.com/"),
                       browserNLdisabled = TRUE,
                       deparse.max.lines = 2)
@@ -132,8 +133,4 @@ if (interactive()) {
   # AWS stuff now in ~/.Rscripts/AWS.R
 
   host <- function() system2("hostname", stdout=T)
-
-  # special magic Vim functions for R 
-  if(Sys.getenv("LOGNAME") == "tim") source("~/.vim/r-plugin/specialfuns.R")
-
 }

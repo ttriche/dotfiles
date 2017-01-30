@@ -139,8 +139,6 @@ export CLASSPATH=".:$HOME/jars:$HOME/jars/stdlib.jar:$HOME/jars/algs4.jar:$CLASS
 
 ### Below added by install script ###
 export ARCHHOME=/home/tim/arch/Linux-x86_64
-export PYTHONPATH=/home/tim/arch/Linux-x86_64/lib/python2.7:$PYTHONPATH
-export PYTHONPATH=/home/tim/arch/Linux-x86_64/lib/python3.3:$PYTHONPATH
 export PATH=/home/tim/arch/Linux-x86_64/bin:$PATH
 
 # . /usr/lib/node_modules/meteorite/completions/mrt.bash
@@ -163,7 +161,6 @@ export LD_LIBRARY_PATH=$JAVA_HOME/jre/lib/amd64:$JAVA_HOME/jre/lib/amd64/jli
 
 # update your python path by adding $HOME/src/genome/python/lib to the end
 # this tells python where to find the genome library 
-export PYTHONPATH=$PYTHONPATH:$HOME/src/genome/python/lib
 
 alias  ipynb="ipython notebook --matplotlib=inline"
 alias  irnb="ipython notebook --KernelManager.kernel_cmd=\"['R', '-e', 'IRkernel::main()', '--args', '{connection_file}']\""
@@ -179,7 +176,6 @@ export PATH=$PATH:$GOPATH/bin
 
 # update your python path by adding $HOME/src/genome/python/lib to the end
 # this tells python where to find the genome library 
-export PYTHONPATH=$PYTHONPATH:$HOME/src/genome/python/lib
 
 export ADAM_HOME="/home/tim/bigdatagenomics/adam"
 alias piUp="sudo ifconfig eth0 192.168.1.1 netmask 255.255.255.0 up"
@@ -200,3 +196,5 @@ cowthink `fortune`
 
 # added by Miniconda2 3.18.3 installer
 export PATH="$PATH:/home/tim/miniconda2/bin:/scratch/homer/bin:/scratch/homer/weblogo"
+
+export PATH=$HOME/bin:$PATH
