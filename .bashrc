@@ -95,23 +95,15 @@ if [ -f /etc/bash_completion ] && ! shopt -oq posix; then
 fi
 alias IGV="/home/tim/IGV/IGV_current/igv.sh"
 alias igv="/home/tim/IGV/IGV_current/igv.sh"
-alias hpc="ssh ttriche@hpc-uec.usc.edu"
 export EDITOR='vim'
 export CUDA_HOME="/usr/local/cuda"
 export LLVM_BIN="/scratch/llvm-build/Debug+Asserts/bin"
 export LD_LIBRARY_PATH="${CUDA_HOME}/lib:${CUDA_HOME}/lib64:$LD_LIBRARY_PATH:/usr/lib64/R/library/Rcpp/lib/"
-HOMER="$HOME/Dropbox/homer"
 
 export MACHTYPE=`uname -m`
 export PATH="${CUDA_HOME}/bin:${LLVM_BIN}:${PATH}:$HOMER/bin:$HOMER/weblogo:$HOME/bin/x86_64"
 export PATH="~/.cabal/bin:$PATH"
 export PATH="/home/tim/HAYSTACK/bin/:$PATH"
-
-
-alias epigraph="ssh ttriche@epigraph.epigenome.usc.edu"
-alias killssh="jobs -l | grep ssh | perl -ane 'print @F[1];' | xargs kill -9"
-alias methdb='mysql methylation'
-# alias methdb='mysql -h epifire2.epigenome.usc.edu -u methylation_user -pLQSmeth80 methylation'
 
 # some more ls aliases
 alias ll='ls -alF'
@@ -130,7 +122,7 @@ alias sl='ls'
 
 ## github crap
 alias g="git"
-alias syncup="g fetch upstream && g checkout master && g merge upstream/master"
+alias syncup="g fetch upstream --recurse-submodules && g checkout master && g merge upstream/master"
 
 ## cling: C++11 interpreter
 alias cling='cling  -Wc++11-extensions -std=c++11'
@@ -151,17 +143,12 @@ export AWS_CONFIG_FILE=/home/tim/Dropbox/AWS/aws_cli_config
 # export PKG_CPPFLAGS=`Rscript -e "Rcpp:::CxxFlags()"`
 # export PKG_CPPFLAGS=" -I. -lpthread "$PKG_CPPFLAGS
 # export PKG_LIBS=`Rscript -e "Rcpp:::LdFlags()"`
-export PATH=$PATH:/home/tim/domino:/home/tim/homer/bin:/home/tim/bin
+export PATH="$PATH:/home/tim/domino:/home/tim/homer/bin:/home/tim/bin"
 export PATH="$PATH:/usr/lib/jvm/java-8-openjdk-amd64/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/home/tim/homer/weblogo"
 export JAVA_HOME='/usr/lib/jvm/java-8-openjdk-amd64'
 export LD_LIBRARY_PATH=$JAVA_HOME/jre/lib/amd64:$JAVA_HOME/jre/lib/amd64/jli
 
-
 ## python crap
-
-# update your python path by adding $HOME/src/genome/python/lib to the end
-# this tells python where to find the genome library 
-
 alias  ipynb="ipython notebook --matplotlib=inline"
 alias  irnb="ipython notebook --KernelManager.kernel_cmd=\"['R', '-e', 'IRkernel::main()', '--args', '{connection_file}']\""
 alias  epynb="ssh -N -f -L localhost:6000:localhost:7000 ttriche@epigraph.epigenome.usc.edu"
@@ -173,9 +160,6 @@ source '/home/tim/google-cloud-sdk/path.bash.inc'
 source '/home/tim/google-cloud-sdk/completion.bash.inc'
 export GOPATH=$HOME/go
 export PATH=$PATH:$GOPATH/bin
-
-# update your python path by adding $HOME/src/genome/python/lib to the end
-# this tells python where to find the genome library 
 
 export ADAM_HOME="/home/tim/bigdatagenomics/adam"
 alias piUp="sudo ifconfig eth0 192.168.1.1 netmask 255.255.255.0 up"
@@ -189,12 +173,21 @@ alias igvtools=$HOME/IGV/IGVTools/igvtools
 
 ## skype
 alias startskype="nohup skype > /dev/null 2>&1 &"
+alias killssh="jobs -l | grep ssh | $HOME/bin/getjobs | xargs kill -9"
 
 export LD_LIBRARY_PATH=$JAVA_HOME/jre/lib/amd64:$JAVA_HOME/jre/lib/amd64/client
-
-cowthink `fortune`
 
 # added by Miniconda2 3.18.3 installer
 export PATH="$PATH:/home/tim/miniconda2/bin:/scratch/homer/bin:/scratch/homer/weblogo"
 
 export PATH=$HOME/bin:$PATH
+
+# for tab separated files
+# from Chris Miller 
+function clf { 
+    column -t -s ' ' $1 | less
+}
+
+# pleasantries
+cowthink `fortune`
+
