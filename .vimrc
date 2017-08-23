@@ -1,13 +1,5 @@
-" pathogen
-" execute pathogen#infect()
-
 " ag 
 let g:ackprg = 'ag --nogroup --nocolor --column'
-
-" lintr
-let g:syntastic_enable_r_lintr_checker = 1
-let g:syntastic_r_checkers = 1
-let g:syntastic_r_lintr_linters = "with_defaults(absolute_paths_linter=NULL, object_usage_linter=NULL, camel_case_linter=NULL, snake_case_linter=NULL, trailing_whitespace_linter=NULL, object_length_linter=NULL, open_curly_linter=NULL, commas_linter=NULL, multiple_dots_linter=NULL, trailing_blank_lines_linter=NULL, spaces_left_parentheses_linter=NULL, line_length_linter=NULL)"
 
 " Tim's .vimrc (with special magic powers)
 set bg=dark

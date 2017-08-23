@@ -1,14 +1,16 @@
 # ~/.bashrc: executed by bash(1) for non-login shells.
 # see /usr/share/doc/bash/examples/startup-files (in the package bash-doc)
 # for examples
-gsettings set org.compiz.core:/org/compiz/profiles/unity/plugins/core/ hsize 6
 
 # If not running interactively, don't do anything
-[ -z "$PS1" ] && return
+case $- in
+    *i*) ;;
+      *) return;;
+esac
 
-# don't put duplicate lines in the history. See bash(1) for more options
-# ... or force ignoredups and ignorespace
-HISTCONTROL=ignoredups:ignorespace
+# don't put duplicate lines or lines starting with space in the history.
+# See bash(1) for more options
+HISTCONTROL=ignoreboth
 
 # append to the history file, don't overwrite it
 shopt -s histappend
@@ -21,17 +23,21 @@ HISTFILESIZE=2000
 # update the values of LINES and COLUMNS.
 shopt -s checkwinsize
 
+# If set, the pattern "**" used in a pathname expansion context will
+# match all files and zero or more directories and subdirectories.
+#shopt -s globstar
+
 # make less more friendly for non-text input files, see lesspipe(1)
 [ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
 
 # set variable identifying the chroot you work in (used in the prompt below)
-if [ -z "$debian_chroot" ] && [ -r /etc/debian_chroot ]; then
+if [ -z "${debian_chroot:-}" ] && [ -r /etc/debian_chroot ]; then
     debian_chroot=$(cat /etc/debian_chroot)
 fi
 
 # set a fancy prompt (non-color, unless we know we "want" color)
 case "$TERM" in
-    xterm-color) color_prompt=yes;;
+    xterm-color|*-256color) color_prompt=yes;;
 esac
 
 # uncomment for a colored prompt, if the terminal has the capability; turned
@@ -78,6 +84,18 @@ if [ -x /usr/bin/dircolors ]; then
     alias egrep='egrep --color=auto'
 fi
 
+# colored GCC warnings and errors
+#export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01'
+
+# some more ls aliases
+alias ll='ls -alF'
+alias la='ls -A'
+alias l='ls -CF'
+
+# Add an "alert" alias for long running commands.  Use like so:
+#   sleep 10; alert
+alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
+
 # Alias definitions.
 # You may want to put all your additions into a separate file like
 # ~/.bash_aliases, instead of adding them here directly.
@@ -90,97 +108,47 @@ fi
 # enable programmable completion features (you don't need to enable
 # this, if it's already enabled in /etc/bash.bashrc and /etc/profile
 # sources /etc/bash.bashrc).
-if [ -f /etc/bash_completion ] && ! shopt -oq posix; then
+if ! shopt -oq posix; then
+  if [ -f /usr/share/bash-completion/bash_completion ]; then
+    . /usr/share/bash-completion/bash_completion
+  elif [ -f /etc/bash_completion ]; then
     . /etc/bash_completion
+  fi
 fi
-alias IGV="/home/tim/IGV/IGV_current/igv.sh"
-alias igv="/home/tim/IGV/IGV_current/igv.sh"
-export EDITOR='vim'
-export CUDA_HOME="/usr/local/cuda"
-export LLVM_BIN="/scratch/llvm-build/Debug+Asserts/bin"
-export LD_LIBRARY_PATH="${CUDA_HOME}/lib:${CUDA_HOME}/lib64:$LD_LIBRARY_PATH:/usr/lib64/R/library/Rcpp/lib/"
 
-export MACHTYPE=`uname -m`
-export PATH="${CUDA_HOME}/bin:${LLVM_BIN}:${PATH}:$HOMER/bin:$HOMER/weblogo:$HOME/bin/x86_64"
-export PATH="~/.cabal/bin:$PATH"
-export PATH="/home/tim/HAYSTACK/bin/:$PATH"
+## more sucks
+alias  more=less
 
-# some more ls aliases
+## some more ls aliases
 alias ll='ls -alF'
 alias la='ls -A'
 alias l='ls -CF'
+alias sl='ls'
 
-# aliases suggested by huffshell:
+## aliases suggested by huffshell:
 alias c='cd'
 alias c.='cd ..'
 alias e='evince'
 alias m='more'
-alias rc='R CMD'
 alias v='vim'
 alias s='sudo'
 alias sl='ls'
+alias rc='R CMD'
+alias rci='R CMD INSTALL'
 
 ## github crap
 alias g="git"
-alias syncup="g fetch upstream --recurse-submodules && g checkout master && g merge upstream/master"
+alias fetchup="g fetch upstream --recurse-submodules"
+alias checkup="g checkout master"
+alias mergeup="g merge upstream/master"
+alias syncup="fetchup && checkup && mergeup"
 
-## cling: C++11 interpreter
-alias cling='cling  -Wc++11-extensions -std=c++11'
-
-export CLASSPATH=".:$HOME/jars:$HOME/jars/stdlib.jar:$HOME/jars/algs4.jar:$CLASSPATH"
-
-### Below added by install script ###
-export ARCHHOME=/home/tim/arch/Linux-x86_64
-export PATH=/home/tim/arch/Linux-x86_64/bin:$PATH
-
-# . /usr/lib/node_modules/meteorite/completions/mrt.bash
+## AWS stuff
 complete -C aws_completer aws
 export AWS_CONFIG_FILE=/home/tim/Dropbox/AWS/aws_cli_config
 
-## for ExaLT
-## and ONLY for ExaLT 
-#
-# export PKG_CPPFLAGS=`Rscript -e "Rcpp:::CxxFlags()"`
-# export PKG_CPPFLAGS=" -I. -lpthread "$PKG_CPPFLAGS
-# export PKG_LIBS=`Rscript -e "Rcpp:::LdFlags()"`
-export PATH="$PATH:/home/tim/domino:/home/tim/homer/bin:/home/tim/bin"
-export PATH="$PATH:/usr/lib/jvm/java-8-openjdk-amd64/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/home/tim/homer/weblogo"
-export JAVA_HOME='/usr/lib/jvm/java-8-openjdk-amd64'
-export LD_LIBRARY_PATH=$JAVA_HOME/jre/lib/amd64:$JAVA_HOME/jre/lib/amd64/jli
-
-## python crap
-alias  ipynb="ipython notebook --matplotlib=inline"
-alias  irnb="ipython notebook --KernelManager.kernel_cmd=\"['R', '-e', 'IRkernel::main()', '--args', '{connection_file}']\""
-alias  epynb="ssh -N -f -L localhost:6000:localhost:7000 ttriche@epigraph.epigenome.usc.edu"
-
-# The next line updates PATH for the Google Cloud SDK.
-source '/home/tim/google-cloud-sdk/path.bash.inc'
-
-# The next line enables bash completion for gcloud.
-source '/home/tim/google-cloud-sdk/completion.bash.inc'
-export GOPATH=$HOME/go
-export PATH=$PATH:$GOPATH/bin
-
-export ADAM_HOME="/home/tim/bigdatagenomics/adam"
-alias piUp="sudo ifconfig eth0 192.168.1.1 netmask 255.255.255.0 up"
-alias hadoopStart="sudo su - hduser -c ~hduser/start-hadoop.sh"
-alias hadoopStop="sudo su - hduser -c ~hduser/stop-hadoop.sh"
-alias adam="bash $ADAM_HOME/adam-cli/target/appassembler/bin/adam"
-alias bedsort="sort -k1,1V -k2,2n -k3,3n"
-
-## IGVtools 
-alias igvtools=$HOME/IGV/IGVTools/igvtools
-
-## skype
-alias startskype="nohup skype > /dev/null 2>&1 &"
+## for when I forget to use mosh, or am stuck behind USC's firewall
 alias killssh="jobs -l | grep ssh | $HOME/bin/getjobs | xargs kill -9"
-
-export LD_LIBRARY_PATH=$JAVA_HOME/jre/lib/amd64:$JAVA_HOME/jre/lib/amd64/client
-
-# added by Miniconda2 3.18.3 installer
-export PATH="$PATH:/home/tim/miniconda2/bin:/scratch/homer/bin:/scratch/homer/weblogo"
-
-export PATH=$HOME/bin:$PATH
 
 # for tab separated files
 # from Chris Miller 
@@ -188,6 +156,10 @@ function clf {
     column -t -s ' ' $1 | less
 }
 
-# pleasantries
-cowthink `fortune`
+## paths 
+export PATH=$HOME/bin:$PATH
+export VISUAL=vim
+export EDITOR="$VISUAL"
 
+## pleasantries 
+cowthink `fortune`
