@@ -52,7 +52,10 @@
 
     # get LyX to quit fucking up
     options(lyx.use.encoding = FALSE)
-   
+    options(skeletor.github="ttriche") 
+    options(skeletor.name="Tim Triche, Jr.")
+    options(skeletor.email="tim.triche@gmail.com")
+
     # set up bigrquery 
     # library("bigrquery")
     # billing_project <- is set in ~/.Rscripts/bigquery.R
