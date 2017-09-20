@@ -19,8 +19,8 @@
       require(x, character.only=TRUE) 
     }
 
-    packages <- c("utils","knitr","purrr","useful","gtools","magrittr") # dplyr?
-    for (pkg in packages) loadOrInstall(pkg)
+    pkgs <- c("utils","knitr","purrr","useful","gtools","magrittr","skeletor")
+    for (pkg in pkgs) loadOrInstall(pkg)
     if (!require(BiocInstaller)) {
       source("http://bioconductor.org/biocLite.R")
       biocLite()
