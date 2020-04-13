@@ -2,30 +2,45 @@
 #
 .First <- function() {
 
-  # where I like to keep my libraries
+  # since I'm always on Linux this is a gimme
   Sys.setenv("R_PDFVIEWER"="/usr/bin/evince")
-  Sys.setenv(TENSORFLOW_PYTHON="/usr/bin/python3.6")
+
+  # use basilisk for this type of stuff going forward 
+  # Sys.setenv(TENSORFLOW_PYTHON="/usr/bin/python3.6")
+
+  # choosing a repo gets old in a hurry
   options("repos" = c(CRAN = "http://cran.rstudio.com/"),
                       browserNLdisabled = TRUE,
                       deparse.max.lines = 2)
 
-  for(i in list.files("~/.Rscripts/")) source(paste0("~/.Rscripts/",i))
+  # notes below on why this is done
+  if (dir.exists("~/.Rscripts")) {
+    for (i in list.files("~/.Rscripts")) {
+      # phelp, lsos, print.data.frame, ... 
+      source(paste("~/.Rscripts/", i, sep="/"))
+    }
+  }
 
+  # bootstrap functions for getting packages set up 
+  req <- function(p) require(p, character.only=TRUE) 
+  reqInstall <- function(p) { if (!req(p)) install.packages(p); req(p) }
+
+  # if there's a user:
   if (interactive()) {
-    cat("\nWelcome to",R.version.string,"\n")
-  
-    loadOrInstall <- function(x) {
-      if(!require(x, character.only=TRUE)) install.packages(x)
-      require(x, character.only=TRUE) 
-    }
 
-    pkgs <- c("utils","knitr","purrr","useful","gtools","magrittr","skeletor")
-    for (pkg in pkgs) loadOrInstall(pkg)
-    if (!require(BiocInstaller)) {
-      source("http://bioconductor.org/biocLite.R")
-      biocLite()
-    }
+    reqInstall("utils")
+    reqInstall("BiocManager")
     
+    # "Packages I'd rather not work without" 
+    pkgs <- c("tidyverse","knitr","useful","gtools","skeletor","S4Vectors")
+    BiocManager::install(setdiff(pkgs, unique(rownames(installed.packages()))))
+
+    # fix shortcomings
+    for (p in toInstall) reqInstall(p)
+   
+    # all set  
+    cat("\nWelcome to", R.version.string, "\n")
+
     # for roxygenise()
     rox <<- roxygen2::roxygenise
     dox <<- devtools::document
@@ -33,7 +48,6 @@
     # change some defaults
     options("digits"=9)
     options("max.print"=9999)
-    options("biocLiteAsk"=FALSE)
     options("pdfviewer"="/usr/bin/evince")
     options("browser"="/opt/google/chrome/chrome")
     options("scipen" = 9999)
@@ -50,15 +64,16 @@
     message("Set options('warn'=2) to stop on warnings...")
     options("warn"=0) ## or =2 to stop on warnings
 
-    # get LyX to quit fucking up
-    options(lyx.use.encoding = FALSE)
-    options(skeletor.github="ttriche") 
-    options(skeletor.name="Tim Triche, Jr.")
-    options(skeletor.email="tim.triche@gmail.com")
-
     # set up bigrquery 
     # library("bigrquery")
     # billing_project <- is set in ~/.Rscripts/bigquery.R
+
+    # set up plotly 
+    # library("plotly")
+    # plotly_api_key <- is set in ~/.Rscripts/plotly.R
+
+    library(BiocManager)
+    biocLite <- BiocManager::install
 
   }
 }
@@ -68,6 +83,10 @@ if (interactive()) {
   lf <- list.files
   lrda <- function(...) list.files(pattern="rda$", ...)
   lrds <- function(...) list.files(pattern="rds$", ...)
+
+  setHook(packageEvent("grDevices", "onLoad"),
+          function(...) grDevices::X11.options(type='cairo'))
+  options(device='x11')
 
   local({ 
     options(editor="vim") 
