@@ -36,7 +36,7 @@
     BiocManager::install(setdiff(pkgs, unique(rownames(installed.packages()))))
 
     # fix shortcomings
-    for (p in toInstall) reqInstall(p)
+    for (p in pkgs) reqInstall(p)
    
     # all set  
     cat("\nWelcome to", R.version.string, "\n")
