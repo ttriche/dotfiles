@@ -30,14 +30,17 @@
 
     reqInstall("utils")
     reqInstall("BiocManager")
-    
+   
     # "Packages I'd rather not work without" 
     pkgs <- c("tidyverse","knitr","useful","gtools","skeletor","S4Vectors")
     BiocManager::install(setdiff(pkgs, unique(rownames(installed.packages()))))
 
     # fix shortcomings
     for (p in pkgs) reqInstall(p)
-   
+  
+    # color-code output
+    require("colorout") # BiocManager::install("jalvesaq/colorout")
+    
     # all set  
     cat("\nWelcome to", R.version.string, "\n")
 
@@ -80,7 +83,6 @@
  
 # I like syntax highlighting, too
 if (interactive()) {
-  lf <- list.files
   lrda <- function(...) list.files(pattern="rda$", ...)
   lrds <- function(...) list.files(pattern="rds$", ...)
 

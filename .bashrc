@@ -185,15 +185,11 @@ alias fixresolv="sudo cp /etc/resolv.conf.fixed /etc/resolv.conf"
 alias fixtty="sudo sh -c 'dumpkeys -k|grep -v Incr_Console|grep -v Decr_Console|grep -v Last_Console|loadkeys'"
 
 # also fuck conda
-alias python="python3.6"
-RETICULATE_PYTHON="/usr/bin/python3.6"
+# alias python="python3.6"
+# RETICULATE_PYTHON="/usr/bin/python3.6"
 
 # I also dislike automaximize, which is an abomination
 dconf write /org/gnome/mutter/edge-tiling false
-
-# R-devel
-export REPOS=https://svn.r-project.org/R
-export RTOP=~/Dropbox #adjust as necessary
 
 # I fucking hate the touchpad
 alias disable-touchpad='xinput set-prop `xinput list | grep -i touchpad | cut -f 2 | grep -oE '[[:digit:]]+'` "Device Enabled" 0'
