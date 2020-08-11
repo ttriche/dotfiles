@@ -13,6 +13,11 @@
                       browserNLdisabled = TRUE,
                       deparse.max.lines = 2)
 
+  # for new package automation:
+  options("skeletor.email"="trichelab@gmail.com")
+  options("skeletor.name"="Tim Triche, Jr.")
+  options("skeletor.github"="trichelab")
+
   # notes below on why this is done
   if (dir.exists("~/.Rscripts")) {
     for (i in list.files("~/.Rscripts")) {
