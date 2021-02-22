@@ -36,6 +36,10 @@
     reqInstall("utils")
     reqInstall("BiocManager")
    
+    # bridge to system package management
+    library(bspm) # binary packages
+    suppressMessages(bspm::enable())
+
     # "Packages I'd rather not work without" 
     pkgs <- c("tidyverse","knitr","useful","gtools","skeletor","S4Vectors")
     BiocManager::install(setdiff(pkgs, unique(rownames(installed.packages()))))

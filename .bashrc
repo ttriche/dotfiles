@@ -137,10 +137,9 @@ alias rc='R CMD'
 alias rci='R CMD INSTALL'
 
 ## github crap
-alias g="git"
-alias fetchup="g fetch upstream --recurse-submodules"
-alias checkup="g checkout master"
-alias mergeup="g merge upstream/master"
+alias fetchup="git fetch upstream --recurse-submodules"
+alias checkup="git checkout master"
+alias mergeup="git merge upstream/master"
 alias syncup="fetchup && checkup && mergeup"
 
 ## AWS stuff
@@ -149,6 +148,9 @@ export AWS_CONFIG_FILE=/home/tim/Dropbox/AWS/aws_cli_config
 
 ## for when I forget to use mosh, or am stuck behind USC's firewall
 alias killssh="jobs -l |& grep ssh | tr -s \  | sed 's/^ //;' | cut -f 2 -d \ | xargs kill -9"
+
+# for when chrome shits the bed
+alias killchrome="ps axuwf | grep chrome | grep google | grep opt | head -1 | tr -s \  | awk '{ print \$2 }' | xargs kill -9"
 
 # for tab separated files
 # from Chris Miller 
@@ -166,11 +168,13 @@ export EDITOR=/usr/bin/vim
 export R_MAX_NUM_DLLS=500
 export UNAFOLDDAT=/usr/share/oligoarrayaux
 
-# VARI VPN
-alias vpn="sudo openconnect -l --authgroup=VAI-Default -u tim.triche pinky.vai.org"
 alias hpcvari="ssh tim.triche@submit.hpc.vai.org"
 alias hpcusc="ssh ttriche@hpc-laird.usc.edu"
-alias triche="ssh tim@triche.vai.org"
+alias triche="ssh tim.triche@triche.vai.org"
+
+# VARI VPN
+alias vpn="sudo openconnect -l --authgroup=VAI-Default -u tim.triche pinky.vai.org"
+alias hpc="ssh tim.triche@submit.hpc.vai.org"
 
 ## pleasantries 
 cowthink `fortune`
@@ -215,3 +219,6 @@ alias disable-touchpad='xinput set-prop `xinput list | grep -i touchpad | cut -f
 # for R-devel:
 export RTOP="$HOME/svn/R"
 export REPOS="https://svn.r-project.org/R"
+
+# cuda
+export PATH=/usr/local/cuda-11.0/bin${PATH:+:${PATH}}
