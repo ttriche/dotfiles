@@ -25,6 +25,7 @@
       source(paste("~/.Rscripts/", i, sep="/"))
     }
   }
+  # bonus: even more obviously ghetto after the `Rscripts` package update!
 
   # bootstrap functions for getting packages set up 
   req <- function(p) require(p, character.only=TRUE) 
@@ -35,18 +36,31 @@
 
     reqInstall("utils")
     reqInstall("BiocManager")
-   
+  
+    # this has been flaky. disabling it.  
     # bridge to system package management
-    library(bspm) # binary packages
-    suppressMessages(bspm::enable())
+    # library(bspm) # binary packages
+    # suppressMessages(bspm::enable())
+    # note that this will ask for sudo access in the course of updates
 
-    # "Packages I'd rather not work without" 
+    # "Packages I'd rather not work without" (loosely defined)
     pkgs <- c("tidyverse","knitr","useful","gtools","skeletor","S4Vectors")
     BiocManager::install(setdiff(pkgs, unique(rownames(installed.packages()))))
 
     # fix shortcomings
     for (p in pkgs) reqInstall(p)
   
+    ## tab-complete library(\t
+    rc.settings(ipck=TRUE)
+
+    # should always be the case IMHO
+    options("stringsAsFactors" = FALSE)
+    options("useFancyQuotes" = FALSE)
+
+    # many thanks to Duncan Murdoch and Ivo Welch
+    message("Set options('warn'=2) to stop on warnings...")
+    options("warn"=0) ## or =2 to stop on warnings
+
     # color-code output
     require("colorout") # BiocManager::install("jalvesaq/colorout")
     
@@ -65,17 +79,6 @@
     options("scipen" = 9999)
     options("prompt"="R> ")
   
-    ## tab-complete libraries
-    rc.settings(ipck=TRUE)
-
-    # should always be the case IMHO
-    options("stringsAsFactors" = FALSE)
-    options("useFancyQuotes" = FALSE)
-
-    # many thanks to Duncan Murdoch and Ivo Welch
-    message("Set options('warn'=2) to stop on warnings...")
-    options("warn"=0) ## or =2 to stop on warnings
-
     # set up bigrquery 
     # library("bigrquery")
     # billing_project <- is set in ~/.Rscripts/bigquery.R
@@ -123,14 +126,14 @@ if (interactive()) {
   # quote words, like in perl
   qw <- function(...) sapply(match.call()[-1], deparse)
 
-# Now in its own script in ~/.Rscripts/phelp.R 
+# Now in its own script in Rscripts::phelp
 #
 # phelp <- function(...) { # {{{ get help for a package
 #   help(package=as.character(sapply(match.call()[-1], deparse)[1]))
 # } # }}}
 #
 
-# Now in its own script in ~/.Rscripts/lsos.R
+# Now in its own script in Rscripts::lsos
 #
 # lsos <- function(..., n=10) { 
 #   .ls.objects(..., order.by="Size", decreasing=TRUE, head=TRUE, n=n)
@@ -149,7 +152,7 @@ if (interactive()) {
     system(paste("LaTeXify", paste(filebase, "tex", sep=".")))
   } # }}}
 
-# Now in its own script in ~/.Rscripts/print.data.frame.R
+# Now in its own script in Rscripts::print.data.frame
 #
 # print.data.frame <- function(df) { # {{{
 #   if (ncol(df) > 0 && require("IRanges")) {
